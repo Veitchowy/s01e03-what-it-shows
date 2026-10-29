@@ -13,26 +13,30 @@ signature: Gorczak
   import RenderStamp from '#lib/kb/RenderStamp.svelte';
 </script>
 
-[#4471](/kb/incidents/4471) is marked known: one issue, one fix queued. The reports merged into
-it show three problems. Each has its own ticket now, with the number of reports it covers.
+[#4471](/kb/incidents/4471) was merged as one issue. The reports in it show three problems, and
+each has its own ticket with the number of reports it covers. Engineering closed #4471 on
+5 October: the parser is fixed and the booking-v3 form is retired. The one-day move is still open.
 
 <Callout kind="warn">
-The queued parser fix closes only the first row. The form hint and the one-day move stay broken
-after it ships.
+#4471 is closed, but not every report in it is solved. The one-day move has no fix and no
+decision. Do not tell a reporter with a one-day move that #4471 fixed it.
 </Callout>
 
 ## What the reports show
 
 <ProblemTable ticket={4471} />
 
-- **`parser`**: the tenant writes the day first and the shared parser reads the month first.
-  7 April goes out as 4 July. Every tenant in #4471 is affected, on every channel.
-- **`hint`**: only on booking-v3 tenants, only through the form. The form tells people to type
-  `MM/DD/YYYY` and then reads what they typed day first. Same symptom, different code.
+- **`parser`**: the tenant writes the day first and the shared parser read the month first.
+  7 April went out as 4 July. Every tenant in #4471, every channel. Fixed by
+  `fix(dates): parse dd/mm for eu locales`.
+- **`hint`**: only on booking-v3 tenants, only through the form. The form told people to type
+  `MM/DD/YYYY` and then read what they typed day first. Same symptom, different code. Won't
+  fix: the form is retired, so the hint is gone with it.
 - **`one-day`**: the date is right, the day is not. "Client in Lisbon got Tuesday. Client in
-  Toronto got Monday." "Only June." No day/month pair in these reports swaps. The desk noted
-  them in `desk-notes.json`; the #4471 page files them under `parser` by tenant, as a footnote.
-  The last one says the reporter stopped reporting these, so this count is a floor.
+  Toronto got Monday." "Only June." No day/month pair in these reports swaps, so neither change
+  above touches them. The desk noted them in `desk-notes.json`; the #4471 page files them under
+  `parser` by tenant, as a footnote. The last one says the reporter stopped reporting these, so
+  this count is a floor.
 
 ## How they were told apart
 
@@ -44,8 +48,8 @@ after it ships.
 
 ## For the desk
 
-- Before you merge a report into #4471, check which problem it shows. A one-day move goes to its
-  own ticket, a booking-v3 form report goes to the hint ticket.
+- A new report about a one-day move goes to the one-day ticket, not to #4471. Ask the reporter
+  where each attendee is: the reports point at time zones.
 - Decision 0001 is accepted and stays as written. Merging on subject alone is what hid these
   problems; it needs a new decision record.
 

@@ -1,5 +1,17 @@
 {
-  "parser": "https://github.com/Veitchowy/s01e03-what-it-shows/issues/1",
-  "hint": "https://github.com/Veitchowy/s01e03-what-it-shows/issues/2",
-  "one-day": "https://github.com/Veitchowy/s01e03-what-it-shows/issues/3"
+  "parser": {
+    "url": "https://github.com/Veitchowy/s01e03-what-it-shows/issues/1",
+    "state": "fixed",
+    "by": "fix(dates): parse dd/mm for eu locales"
+  },
+  "hint": {
+    "url": "https://github.com/Veitchowy/s01e03-what-it-shows/issues/2",
+    "state": "won't fix",
+    "by": "booking-v3 form retired"
+  },
+  "one-day": {
+    "url": "https://github.com/Veitchowy/s01e03-what-it-shows/issues/3",
+    "state": "open",
+    "by": "no fix, no decision"
+  }
 }
