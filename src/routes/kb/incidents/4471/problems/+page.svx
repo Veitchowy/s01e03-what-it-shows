@@ -1,0 +1,52 @@
+---
+layout: runbook
+title: '#4471 · three problems, not one'
+owner: Gorczak
+status: open
+reviewed: 2026-10-29
+signature: Gorczak
+---
+
+<script>
+  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+[#4471](/kb/incidents/4471) is marked known: one issue, one fix queued. The reports merged into
+it show three problems. Each has its own ticket now, with the number of reports it covers.
+
+<Callout kind="warn">
+The queued parser fix closes only the first row. The form hint and the one-day move stay broken
+after it ships.
+</Callout>
+
+## What the reports show
+
+<ProblemTable ticket={4471} />
+
+- **`parser`**: the tenant writes the day first and the shared parser reads the month first.
+  7 April goes out as 4 July. Every tenant in #4471 is affected, on every channel.
+- **`hint`**: only on booking-v3 tenants, only through the form. The form tells people to type
+  `MM/DD/YYYY` and then reads what they typed day first. Same symptom, different code.
+- **`one-day`**: the date is right, the day is not. "Client in Lisbon got Tuesday. Client in
+  Toronto got Monday." "Only June." No day/month pair in these reports swaps. The desk noted
+  them in `desk-notes.json`; the #4471 page files them under `parser` by tenant, as a footnote.
+  The last one says the reporter stopped reporting these, so this count is a floor.
+
+## How they were told apart
+
+- One id, one report: the export pages overlap, so ids are counted once.
+- The cause follows the tenant (`causes.ts`), not intake's tag. Intake guesses from the
+  reporter's browser and disagrees with the tenant often.
+- The subject line says nothing about the cause. Subjects repeat across all three problems, so
+  [decision 0001](/kb/decisions/0001-dedupe-by-subject) merged them into one ticket.
+
+## For the desk
+
+- Before you merge a report into #4471, check which problem it shows. A one-day move goes to its
+  own ticket, a booking-v3 form report goes to the hint ticket.
+- Decision 0001 is accepted and stays as written. Merging on subject alone is what hid these
+  problems; it needs a new decision record.
+
+<RenderStamp {signature} />
